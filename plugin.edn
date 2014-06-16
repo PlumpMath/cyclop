@@ -1,0 +1,6 @@
+{:name "Cyclop"
+ :version "0.0.1"
+ :author "Erik Svedäng"
+ :source "http://github.com/eriksvedang/cyclop"
+ :desc ""
+ :behaviors "cyclop.behaviors"}

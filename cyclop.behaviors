@@ -1,0 +1,3 @@
+{:+ {:app [(:lt.objs.plugins/load-js "cyclop_compiled.js")
+           (:lt.objs.plugins/load-css "styles.css" true)]
+     :cyclop.hello [:lt.plugins.cyclop/on-close-destroy]}}
