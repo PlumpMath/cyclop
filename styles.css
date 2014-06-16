@@ -1,3 +1,8 @@
-h1 { color: rgb(0, 255, 255); }
+h1 { color: rgb(255, 255, 255); }
 
-.menu ul { display: inline-block; color: #123123; }
+.menu { background: #333; margin-bottom: 5px; }
+.menu ul li { display: inline-block; color: #123123; }
+
+.inspector { background: #333; min-height: 500px; }
+
+.selected { color: #000; background: #CCC; }
