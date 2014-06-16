@@ -6,7 +6,10 @@
             [lt.objs.command :as cmd])
   (:require-macros [lt.macros :refer [defui behavior]]))
 
-(def state (atom {:mode :raw}))
+(def example-data [[0 150][1 200][2 300][3 250][4 370]])
+
+(def state (atom {:mode :raw
+                  :data example-data}))
 
 (def modes {:raw "Raw"
             :boxes "Pretty boxes"
@@ -24,8 +27,24 @@
     [:li (mode-button this :boxes)]
     [:li (mode-button this :graph)]]])
 
+(defui mode-raw [this]
+  [:div.raw
+   [:h2 "Enter data here:"]
+   [:input {:value (str (:data @state))}]])
+
+(defui mode-boxes [this]
+  [:div.boxes
+   [:h1 "Pretty boxes"]])
+
+(defui mode-graph [this]
+  [:div.graph
+   [:h1 "2D-graph"]])
+
 (defui inspector [this]
-  [:div.inspector ])
+  [:div.inspector
+   (mode-raw this)
+   (mode-boxes this)
+   (mode-graph this)])
 
 (defui full-panel [this]
   [:div.full
@@ -38,12 +57,22 @@
 (defn get-mode-buttons []
   (dom/$$ ".mode-button"))
 
+(defn inspectors-for-keys []
+  (let [modes [:raw :boxes :graph]
+        divs (map #(dom/$ (str "." (name %))) modes)]
+    (zipmap modes divs)))
+
 (defn refresh-ui [this]
   (let [mode-buttons (get-mode-buttons)
         selected-mode-button (get-selected-mode-button)]
     (doseq [b mode-buttons]
       (dom/remove-class b :selected))
-    (dom/add-class selected-mode-button :selected)))
+    (dom/add-class selected-mode-button :selected))
+  (let [inspectors (inspectors-for-keys)]
+    (doseq [[k inspector] inspectors]
+      (if (= k (:mode @state))
+        (dom/remove-class inspector :invisible)
+        (dom/add-class inspector :invisible)))))
 
 (object/object* ::cyclop.panel
                 :tags [:cyclop.panel]
@@ -67,14 +96,13 @@
                       ))
 
 (def cyclop (object/create ::cyclop.panel))
+(refresh-ui cyclop)
 
 (cmd/command {:command ::start
               :desc "Cyclop: Start"
               :exec (fn []
-                      (tabs/add-or-focus! cyclop))})
-
-
-;(object/raise cyclop )
+                      (tabs/add-or-focus! cyclop)
+                      (refresh-ui cyclop))})
 
 state
 

@@ -3,6 +3,9 @@ h1 { color: rgb(255, 255, 255); }
 .menu { background: #333; margin-bottom: 5px; }
 .menu ul li { display: inline-block; color: #123123; }
 
-.inspector { background: #333; min-height: 500px; }
-
+.inspector { background: #333; min-height: 500px; padding:5px; }
 .selected { color: #000; background: #CCC; }
+.invisible { display: none; }
+
+input { width: calc(100% - 10px); min-height:500px; margin:0px; }
+
